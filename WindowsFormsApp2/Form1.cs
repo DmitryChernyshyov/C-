@@ -32,8 +32,8 @@ namespace WindowsFormsApp2
             chart1.Series[3].Points.Clear();
             chart1.Series[1].Points.Clear();
             chart1.Series[4].Points.Clear();
-    
-            
+            chart1.Series[5].Points.Clear();
+
             k = Convert.ToDouble(textBox1.Text);
             a = Convert.ToDouble(textBox3.Text);
             switch (comboBox1.Text)
@@ -46,7 +46,7 @@ namespace WindowsFormsApp2
                         chart1.Series[2].Points.AddXY(0, Math.Cos(0));
                         chart1.Series[3].Points.AddXY(3.14, Math.Cos(3.14));
                         chart1.Series[4].Points.AddXY(3.14 * 2, Math.Cos(3.14 * 2));
-
+                        chart1.Series[5].Points.AddXY(-3.14, Math.Cos(-3.14));
                     }
 
                     break;
@@ -55,7 +55,10 @@ namespace WindowsFormsApp2
                     {
                         i += 0.1;
                         chart1.Series[0].Points.AddXY(i, Math.Sin(i));
-                        
+                        chart1.Series[2].Points.AddXY(3.14/2, Math.Sin(3.14 / 2));
+                        chart1.Series[3].Points.AddXY(3*3.14/2, Math.Sin(3 * 3.14/2 ));
+                        chart1.Series[4].Points.AddXY(5 * 3.14 / 2, Math.Sin(5 * 3.14 / 2));
+                        chart1.Series[5].Points.AddXY(-3.14/2, Math.Sin(-3.14/2));
                     }
                     break;
                 case "tan(x)":
@@ -139,6 +142,38 @@ namespace WindowsFormsApp2
 
                     }
                     break;
+                case "sin(x+a)":
+                    for (double i = -4; i < 10;)
+                    {
+                        i += 0.1;
+                        chart1.Series[0].Points.AddXY(i, Math.Sin(i + a) );
+
+                    }
+                    break;
+                case "cos(x+a)":
+                    for (double i = -4; i < 10;)
+                    {
+                        i += 0.1;
+                        chart1.Series[0].Points.AddXY(i, Math.Cos(i + a) );
+
+                    }
+                    break;
+                case "tan(+ax)":
+                    for (double i = -4; i < 10;)
+                    {
+                        i += 0.1;
+                        chart1.Series[0].Points.AddXY(i, Math.Tan(i + a));
+
+                    }
+                    break;
+                case "ctan(x+a)":
+                    for (double i = -4; i < 10;)
+                    {
+                        i += 0.1;
+                        chart1.Series[0].Points.AddXY(i, -Math.Tan(i + a)) ;
+
+                    }
+                    break;
                 case "cos(|x|)":
                     for (double i = -4; i < 10;)
                     {
@@ -178,7 +213,7 @@ namespace WindowsFormsApp2
 
             k2 = Convert.ToDouble(textBox2.Text);
             a2 = Convert.ToDouble(textBox4.Text);
-            timer1.Enabled = true;
+
            
             
         }
@@ -192,6 +227,25 @@ namespace WindowsFormsApp2
             N += 0.1;   
             switch (comboBox2.Text)
             {
+                case "cos(x+a)":
+                    chart1.Series[1].Points.AddXY(N, Math.Cos(N+a2));
+
+                    break;
+                case "sin(x+a)":
+                    chart1.Series[1].Points.AddXY(N, Math.Sin(N+a2));
+
+
+                    break;
+                case "tan(x+a)":
+                    chart1.Series[1].Points.AddXY(N, Math.Tan(N + a2));
+
+                    break;
+                case "Ctan(x+a)":
+                    chart1.Series[1].Points.AddXY(N, -Math.Tan(N + a2));
+
+                    break;
+
+
                 case "cos(x)":
                         chart1.Series[1].Points.AddXY(N, Math.Cos(N));
 
@@ -211,9 +265,7 @@ namespace WindowsFormsApp2
                     break;
                 case "cos(kx)":
                     chart1.Series[1].Points.AddXY(N, Math.Cos(k2*N));
-                    chart1.Series[2].Points.AddXY(-k2 * 3.14 * k2, Math.Cos(-k2 * 3.14 * k2));
 
-              
                    
                     break;  
                 case "sin(kx)":
@@ -291,7 +343,8 @@ namespace WindowsFormsApp2
             chart1.Series[3].Points.Clear();
             chart1.Series[1].Points.Clear();
             chart1.Series[4].Points.Clear();
-            chart1.ChartAreas[0].AxisY.ScaleView.Zoom(-1.5, 1.5);
+            chart1.Series[5].Points.Clear();
+            chart1.ChartAreas[0].AxisY.ScaleView.Zoom(-3, 5);
             chart1.ChartAreas[0].CursorX.IsUserEnabled = true;
             chart1.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
             chart1.ChartAreas[0].AxisX.ScaleView.Zoomable = true;
@@ -327,11 +380,201 @@ namespace WindowsFormsApp2
         {
 
         }
-
+       
         private void Timer2_Tick(object sender, EventArgs e)
         {
+            if (N < 0)
+            {
+                N = 0;
+            }
+            N += 0.1;
+            switch (comboBox2.Text)
+            {
+                case "cos(x)":
 
+                    break;
+                case "sin(x)":
+                    chart1.Series[2].Points.AddXY(N, Math.Sin(N));
+
+
+                    break;
+                case "tan(x)":
+                    chart1.Series[2].Points.AddXY(N, Math.Tan(N));
+
+                    break;
+                case "Ctan(x)":
+                    chart1.Series[2].Points.AddXY(N, -Math.Tan(N));
+
+                    break;
+                case "cos(kx)":
+
+               
+
+                    break;
+                case "sin(kx)":
+                   
+                    if ((N >= 0) & (N <= k2))
+                    {
+                        chart1.Series[2].Points.AddXY(3.14 / 2 - N, Math.Sin(3.14 / 2) );
+                        chart1.Series[3].Points.AddXY(3 * 3.14 / 2 - N, Math.Sin(3 * 3.14 / 2));
+                        chart1.Series[4].Points.AddXY(5 * 3.14 / 2 - N, Math.Sin(5 * 3.14 / 2));
+                        chart1.Series[5].Points.AddXY(-3.14 / 2 - N, Math.Sin(-3.14 / 2) );
+                    }
+
+
+                    break;
+                case "tan(kx)":
+
+                    chart1.Series[2].Points.AddXY(N, Math.Tan(N * k2));
+
+
+                    break;
+                case "ctan(kx)":
+
+                    chart1.Series[2].Points.AddXY(N, -Math.Tan(N * k2));
+
+
+                    break;
+                case "sin(x)+a":
+                    if ((N >= 0) & (N <= a2))
+                    {
+                        chart1.Series[2].Points.AddXY(3.14 / 2, Math.Sin(3.14 / 2) + N);
+                        chart1.Series[3].Points.AddXY(3 * 3.14 / 2, Math.Sin(3 * 3.14 / 2) + N);
+                        chart1.Series[4].Points.AddXY(5 * 3.14 / 2, Math.Sin(5 * 3.14 / 2) + N);
+                        chart1.Series[5].Points.AddXY(-3.14/2, Math.Sin(-3.14/2) + N);
+                    }
+
+                    break;
+                case "cos(x)+a":
+                    if ((N >= 0) & (N <= a2))
+                    {
+                        chart1.Series[2].Points.AddXY(0, Math.Cos(0) + N);
+                        chart1.Series[3].Points.AddXY(3.14, Math.Cos(3.14) + N);
+                        chart1.Series[4].Points.AddXY(3.14 * 2, Math.Cos(3.14 * 2) + N);
+                        chart1.Series[5].Points.AddXY(-3.14, Math.Cos(-3.14) + N);
+
+                    }
+
+
+                    break;
+                case "tan(x)+a":
+
+                    chart1.Series[2].Points.AddXY(N, Math.Tan(N) + a2);
+
+                    break;
+                case "ctan(x)+a":
+
+                    chart1.Series[2].Points.AddXY(N, -Math.Tan(N) + a2);
+
+                    break;
+                case "cos(|x|)":
+                    a2 = 2;
+                    if ((N >= 0) & (N <= 2))
+                    {
+                        chart1.Series[2].Points.AddXY(0, Math.Abs(Math.Cos(0)));              
+                        chart1.Series[4].Points.AddXY(3.14 * 2, Math.Abs(Math.Cos(3.14 * 2)));
+                        chart1.Series[3].Points.AddXY(3.14, -1 + N);
+                        chart1.Series[5].Points.AddXY(-3.14, -1 + N);
+                    }
+
+
+                    break;
+                case "sin(|x|)":
+                    a2 = 2;
+                    if ((N >= 0) & (N <= 2))
+                    {
+                        chart1.Series[2].Points.AddXY(3.14 / 2, Math.Abs(Math.Sin(3.14 / 2)));
+                        chart1.Series[3].Points.AddXY(3 * 3.14 / 2, -1 + N);
+                        chart1.Series[4].Points.AddXY(5 * 3.14 / 2, Math.Abs(Math.Sin(5 * 3.14 / 2)));
+                        chart1.Series[5].Points.AddXY(-3.14 / 2,-1 + N);
+                    }
+                    break;
+                case "tan(|x|)":
+
+                    chart1.Series[2].Points.AddXY(N, Math.Abs(Math.Tan(N)));
+                    break;
+                case "ctan(|x|)":
+
+                    chart1.Series[2].Points.AddXY(N, -Math.Abs(Math.Tan(N)));
+                    break;
+                case "cos(x+a)":
+                    if ((N >= 0) & (N <= a2))
+                    {
+                        chart1.Series[2].Points.AddXY(0 - N, 1);
+                        chart1.Series[3].Points.AddXY(3.14 -N, -1);
+                        chart1.Series[4].Points.AddXY(3.14*2-N ,1);
+                        chart1.Series[5].Points.AddXY(-3.14 -N ,-1);
+                    }
+                    break;
+                case "sin(x+a)":
+                    if ((N >= 0) & (N <= a2))
+                    {
+                        chart1.Series[2].Points.AddXY(3.14 / 2-N, Math.Sin(3.14 / 2));
+                        chart1.Series[3].Points.AddXY(3 * 3.14 / 2-N, Math.Sin(3 * 3.14 / 2));
+                        chart1.Series[4].Points.AddXY(5 * 3.14 / 2-N, Math.Sin(5 * 3.14 / 2));
+                        chart1.Series[5].Points.AddXY(-3.14 / 2-N, Math.Sin(-3.14 / 2));
+                    }
+
+
+                    break;
+                case "tan(x+a)":
+                    chart1.Series[1].Points.AddXY(N, Math.Tan(N + a2));
+
+                    break;
+                case "Ctan(x+a)":
+                    chart1.Series[1].Points.AddXY(N, -Math.Tan(N + a2));
+
+                    break;
+
+                default:
+
+                    break;
+            }
             
+            if (N >= a2)
+            {
+                timer1.Enabled = true;
+                timer2.Enabled = false;
+                N = -4.1;
+
+            }
+
+        }
+
+        private void Button2_Click(object sender, EventArgs e)
+        {
+
+            timer2.Enabled = true;
+        }
+
+        private void MenuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void Удалить_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void ToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            chart1.Series[0].Points.Clear();
+            chart1.Series[2].Points.Clear();
+            chart1.Series[3].Points.Clear();
+            chart1.Series[1].Points.Clear();
+            chart1.Series[4].Points.Clear();
+            chart1.Series[5].Points.Clear();
+        }
+
+        private void Удалить1ГрафикToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart1.Series[0].Points.Clear();
+        }
+
+        private void Удалить2ГрафикToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            chart1.Series[1].Points.Clear();
         }
 
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
